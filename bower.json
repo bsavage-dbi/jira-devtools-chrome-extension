@@ -11,7 +11,8 @@
   "private": true,
   "dependencies": {
     "jquery": "latest",
-    "angular": "latest"
+    "angular": "latest",
+    "foundation-essentials": "latest"
   },
   "ignore": [
     "**/.*",

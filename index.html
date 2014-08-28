@@ -5,23 +5,39 @@
     <link rel="stylesheet" type="text/css" href="bower_components/angular/angular-csp.css">
     <style>
       body {
-        min-width: 357px;
+        min-width: 320px;
         overflow-x: hidden;
       }
     </style>
+    <link rel="stylesheet" href="bower_components/foundation-essentials/css/normalize.css">
+    <link rel="stylesheet" href="bower_components/foundation-essentials/css/foundation.css">
+    <script type='text/javascript' src="bower_components/modernizr/modernizr.js"></script>
     <script type='text/javascript' src='bower_components/jquery/dist/jquery.js'></script>
   </head>
   <body ng-csp ng-app='JiraTicketApp'>
-    <ul ng-controller='JiraTicketController' ng-init='loadTicket()'>
-      <li>
-        <textarea ng-copy='js-copy-title'>{{ jiraTicket.id }} {{ jiraTicket.title }}</textarea>
-        <button id='js-copy-title'>Copy Jira title</button>
-      </li>
-      <li>
-        <textarea ng-copy='js-copy-branch'>{{ jiraTicket.id }}-{{ jiraTicket.title | brancherize }}</textarea>
-        <button id='js-copy-branch'>Copy Jira title for git branch</button>
-      </li>
-    </ul>
+    <div ng-controller='JiraTicketController' ng-init='loadTicket()'>
+      <div class="small-12 columns">
+        <h1>
+          Jira Dev Tools
+        </h1>
+      </div>
+      <div class='row'>
+        <div class="small-12 columns">
+          <textarea class='small-12' ng-copy='js-copy-title'>{{ jiraTicket.id }} {{ jiraTicket.title }}</textarea>
+        </div>
+        <div class="small-12 columns text-center">
+          <button class='small' id='js-copy-title'>Copy Jira Title</button>
+        </div>
+      </div>
+      <div class='row'>
+        <div class="small-12 columns">
+          <textarea class='small-12' ng-copy='js-copy-branch'>{{ jiraTicket.id }}-{{ jiraTicket.title | brancherize }}</textarea>
+        </div>
+        <div class="small-12 columns text-center">
+          <button class='small' id='js-copy-branch'>Copy Branch Name</button>
+        </div>
+      </div>
+    </div>
     <script type='text/javascript' src='bower_components/angular/angular.js'></script>
     <script type='text/javascript' src='popup.js'></script>
   </body>
