@@ -31,6 +31,15 @@ angular.module('JiraTicketApp', [])
   })
   .controller('JiraTicketController', ['$scope', 'ChromeTabMessenger', function($scope, chromeMessenger) {
     $scope.jiraTicket = {};
+    $scope.controls = {
+      availablePages: [
+        '*://*.atlassian.net/browse/*',
+      ]
+    };
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      $scope.controls.activeTab = tabs[0];
+    });
+
     $scope.loadTicket = function(){
       chromeMessenger.requestTicketData(function(response){
         $scope.$apply(function(){
@@ -38,5 +47,22 @@ angular.module('JiraTicketApp', [])
           $scope.jiraTicket.title = response.jiraTicket.title.trim();
         });
       })
+    };
+
+    $scope.isJiraTicketPage = function(){
+      return /[http|https]:\/\/.*\.atlassian\.net\/browse\/.*/.test($scope.activeTabUrl());
+    };
+
+    $scope.isAvailablePage = function(){
+      return $scope.isJiraTicketPage()
+    }
+
+    $scope.availablePages = function(){
+      return $scope.controls.availablePages;
+    };
+
+    $scope.activeTabUrl = function(){
+      if($scope.controls.activeTab === undefined) return '';
+      return $scope.controls.activeTab.url;
     };
   }]);

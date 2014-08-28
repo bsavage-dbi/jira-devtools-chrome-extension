@@ -21,20 +21,40 @@
           Jira Dev Tools
         </h1>
       </div>
-      <div class='row'>
-        <div class="small-12 columns">
-          <textarea class='small-12' ng-copy='js-copy-title'>{{ jiraTicket.id }} {{ jiraTicket.title }}</textarea>
+      <div ng-if='isJiraTicketPage()' >
+        <div class='row'>
+          <div class="small-12 columns">
+            <textarea class='small-12' ng-copy='js-copy-title'>{{ jiraTicket.id }} {{ jiraTicket.title }}</textarea>
+          </div>
+          <div class="small-12 columns text-center">
+            <button class='small' id='js-copy-title'>Copy Jira Title</button>
+          </div>
         </div>
-        <div class="small-12 columns text-center">
-          <button class='small' id='js-copy-title'>Copy Jira Title</button>
+        <div class='row'>
+          <div class="small-12 columns">
+            <textarea class='small-12' ng-copy='js-copy-branch'>{{ jiraTicket.id }}-{{ jiraTicket.title | brancherize }}</textarea>
+          </div>
+          <div class="small-12 columns text-center">
+            <button class='small' id='js-copy-branch'>Copy Branch Name</button>
+          </div>
         </div>
       </div>
-      <div class='row'>
+      <div class='small-12 columns' ng-if='!isAvailablePage()'>
         <div class="small-12 columns">
-          <textarea class='small-12' ng-copy='js-copy-branch'>{{ jiraTicket.id }}-{{ jiraTicket.title | brancherize }}</textarea>
+          You are at:
+          <ul>
+            <li>
+              {{ activeTabUrl() }}
+            </li>
+          </ul>
         </div>
-        <div class="small-12 columns text-center">
-          <button class='small' id='js-copy-branch'>Copy Branch Name</button>
+        <div class="small-12 columns">
+          You need to be in one of the following kind of pages:
+          <ul>
+            <li ng-repeat='url in availablePages()'>
+              {{ url }}
+            </li>
+          </ul>
         </div>
       </div>
     </div>
