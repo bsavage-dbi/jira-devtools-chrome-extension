@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Jira Dev Tools</title>
+    <link rel="stylesheet" type="text/css" href="bower_components/angular/angular-csp.css">
+    <style>
+      body {
+        min-width: 357px;
+        overflow-x: hidden;
+      }
+    </style>
+    <script type='text/javascript' src='bower_components/jquery/dist/jquery.js'></script>
+  </head>
+  <body ng-csp ng-app='JiraTicketApp'>
+    <ul ng-controller='JiraTicketController' ng-init='loadTicket()'>
+      <li>
+        <textarea ng-copy='js-copy-title'>{{ jiraTicket.id }} {{ jiraTicket.title }}</textarea>
+        <button id='js-copy-title'>Copy Jira title</button>
+      </li>
+      <li>
+        <textarea ng-copy='js-copy-branch'>{{ jiraTicket.id }}-{{ jiraTicket.title | brancherize }}</textarea>
+        <button id='js-copy-branch'>Copy Jira title for git branch</button>
+      </li>
+    </ul>
+    <script type='text/javascript' src='bower_components/angular/angular.js'></script>
+    <script type='text/javascript' src='popup.js'></script>
+  </body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "name": "jira-ticket",
+  "version": "0.0.0",
+  "authors": [
+    "Daniel Gaytan <dgaytan6@gmail.com>"
+  ],
+  "moduleType": [
+    "amd"
+  ],
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "jquery": "latest",
+    "angular": "latest"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
