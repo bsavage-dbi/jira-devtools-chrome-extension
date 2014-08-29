@@ -5,8 +5,14 @@ angular.module('JiraTicketApp', [])
         chrome.tabs.sendMessage(tabs[0].id, { type: "ticket-data" }, callback)
       });
     };
+    var sendRedirectToJiraTicket = function(callback){
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, { type: "redirect-to-jira-ticket" }, callback)
+      });
+    };
     return {
-      requestTicketData: requestTicketData
+      requestTicketData: requestTicketData,
+      sendRedirectToJiraTicket: sendRedirectToJiraTicket
     };
   })
   .directive('ngCopy', function(){
@@ -31,38 +37,53 @@ angular.module('JiraTicketApp', [])
   })
   .controller('JiraTicketController', ['$scope', 'ChromeTabMessenger', function($scope, chromeMessenger) {
     $scope.jiraTicket = {};
-    $scope.controls = {
-      availablePages: [
-        '*://*.atlassian.net/browse/*',
-      ]
-    };
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      $scope.controls.activeTab = tabs[0];
-    });
-
     $scope.loadTicket = function(){
       chromeMessenger.requestTicketData(function(response){
-        $scope.$apply(function(){
-          $scope.jiraTicket = response.jiraTicket;
-          $scope.jiraTicket.title = response.jiraTicket.title.trim();
-        });
+        $scope.$apply($scope.newJiraTicket(response.jiraTicket));
       })
     };
 
+    $scope.newJiraTicket = function(jiraTicket){
+      $scope.jiraTicket = jiraTicket;
+      $scope.jiraTicket.title = jiraTicket.title.trim();
+    };
+  }])
+  .controller('GithubPullRequestController', ['$scope', 'ChromeTabMessenger', function($scope, chromeMessenger) {
+    $scope.goToJira= function(){
+      chromeMessenger.sendRedirectToJiraTicket(function(response){
+        $scope.redirectToJira(response.githubPullRequest)
+      });
+    };
+
+    $scope.redirectToJira = function(githubPullRequest){
+      var jiraTicketId = githubPullRequest.title.match(/OA-\d+/)[0];
+      var jiraTicketUrl = "http://onelogin2.atlassian.net/browse/" + jiraTicketId;
+      chrome.tabs.create({ url: jiraTicketUrl });
+    };
+  }])
+  .controller('JiraDevToolsController', ['$scope', function($scope) {
+    $scope.availablePages = [
+      '*://*.atlassian.net/browse/*',
+      "*://github.com/*/pull/*"
+    ];
+
+    $scope.activeTab = {};
+
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+      $scope.$apply(function(){
+        $scope.activeTab = tabs[0];
+      });
+    });
+
     $scope.isJiraTicketPage = function(){
-      return /[http|https]:\/\/.*\.atlassian\.net\/browse\/.*/.test($scope.activeTabUrl());
+      return /[http|https]:\/\/.*\.atlassian\.net\/browse\/.*/.test($scope.activeTab.url);
+    };
+
+    $scope.isGithubPullRequestPage = function(){
+      return /[http|https]:\/\/github\.com\/.*\/pull\/.*/.test($scope.activeTab.url);
     };
 
     $scope.isAvailablePage = function(){
-      return $scope.isJiraTicketPage()
+      return $scope.isJiraTicketPage() || $scope.isGithubPullRequestPage();
     }
-
-    $scope.availablePages = function(){
-      return $scope.controls.availablePages;
-    };
-
-    $scope.activeTabUrl = function(){
-      if($scope.controls.activeTab === undefined) return '';
-      return $scope.controls.activeTab.url;
-    };
   }]);

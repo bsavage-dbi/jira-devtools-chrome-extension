@@ -6,6 +6,9 @@
   "content_scripts": [{
     "matches": ["*://*.atlassian.net/browse/*"],
     "js":      ["content.js"]
+  }, {
+    "matches": ["*://github.com/*/pull/*"],
+    "js": ["content/githubPullRequest.js"]
   }],
   "browser_action": {
     "default_icon": "icon.png",

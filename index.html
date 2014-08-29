@@ -15,13 +15,13 @@
     <script type='text/javascript' src='bower_components/jquery/dist/jquery.js'></script>
   </head>
   <body ng-csp ng-app='JiraTicketApp'>
-    <div ng-controller='JiraTicketController' ng-init='loadTicket()'>
+    <div ng-controller='JiraDevToolsController as jiraDevTools'>
       <div class="small-12 columns">
         <h1>
           Jira Dev Tools
         </h1>
       </div>
-      <div ng-if='isJiraTicketPage()' >
+      <div ng-if='isJiraTicketPage()' ng-controller='JiraTicketController' ng-init='loadTicket()'>
         <div class='row'>
           <div class="small-12 columns">
             <textarea class='small-12' ng-copy='js-copy-title'>{{ jiraTicket.id }} {{ jiraTicket.title }}</textarea>
@@ -39,19 +39,26 @@
           </div>
         </div>
       </div>
+      <div ng-if='isGithubPullRequestPage()' ng-controller='GithubPullRequestController'>
+        <div class='row'>
+          <div class="small-12 columns text-center">
+            <button ng-click='goToJira()'>Go to Jira Ticket</button>
+          </div>
+        </div>
+      </div>
       <div class='small-12 columns' ng-if='!isAvailablePage()'>
         <div class="small-12 columns">
           You are at:
           <ul>
             <li>
-              {{ activeTabUrl() }}
+              {{ activeTab.url }}
             </li>
           </ul>
         </div>
         <div class="small-12 columns">
           You need to be in one of the following kind of pages:
           <ul>
-            <li ng-repeat='url in availablePages()'>
+            <li ng-repeat='url in availablePages'>
               {{ url }}
             </li>
           </ul>
