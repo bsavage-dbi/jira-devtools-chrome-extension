@@ -51,14 +51,14 @@
           You are at:
           <ul>
             <li>
-              {{ activeTab.url }}
+              {{ getActiveTabUrl() }}
             </li>
           </ul>
         </div>
         <div class="small-12 columns">
           You need to be in one of the following kind of pages:
           <ul>
-            <li ng-repeat='url in availablePages'>
+            <li ng-repeat='url in getAvailablePages()'>
               {{ url }}
             </li>
           </ul>

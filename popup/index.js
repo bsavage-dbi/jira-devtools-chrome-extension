@@ -86,4 +86,12 @@ angular.module('JiraTicketApp', [])
     $scope.isAvailablePage = function(){
       return $scope.isJiraTicketPage() || $scope.isGithubPullRequestPage();
     }
+
+    $scope.getAvailablePages = function(){
+      return $scope.availablePages;
+    };
+
+    $scope.getActiveTabUrl = function(){
+      return $scope.activeTab.url;
+    };
   }]);
