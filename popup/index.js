@@ -10,9 +10,15 @@ angular.module('JiraTicketApp', [])
         chrome.tabs.sendMessage(tabs[0].id, { type: "redirect-to-jira-ticket" }, callback)
       });
     };
+    var sendFillInDescription = function(callback){
+      chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, { type: "fill-in-description" }, callback)
+      });
+    };
     return {
       requestTicketData: requestTicketData,
-      sendRedirectToJiraTicket: sendRedirectToJiraTicket
+      sendRedirectToJiraTicket: sendRedirectToJiraTicket,
+      sendFillInDescription: sendFillInDescription
     };
   })
   .directive('ngCopy', function(){
@@ -59,6 +65,10 @@ angular.module('JiraTicketApp', [])
       var jiraTicketId = githubPullRequest.title.match(/OA-\d+/)[0];
       var jiraTicketUrl = "http://onelogin2.atlassian.net/browse/" + jiraTicketId;
       chrome.tabs.create({ url: jiraTicketUrl });
+    };
+
+    $scope.fillInDescription = function(){
+      chromeMessenger.sendFillInDescription();
     };
   }])
   .controller('JiraDevToolsController', ['$scope', function($scope) {
