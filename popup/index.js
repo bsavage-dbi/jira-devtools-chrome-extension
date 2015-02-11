@@ -35,7 +35,7 @@ angular.module('JiraTicketApp', [])
   .filter('brancherize', function(){
     return function(input){
       if(input === undefined) return '';
-      var str = input.replace(/\s/g, '-');
+      var str = input.replace(/\s/g, '-').replace(/["']/g, '');
       if(str.slice(-1) === '.')
         str = str.slice(0, -1)
       return str
