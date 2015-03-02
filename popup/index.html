@@ -15,6 +15,36 @@
     <script type='text/javascript' src='/bower_components/jquery/dist/jquery.js'></script>
   </head>
   <body ng-csp ng-app='JiraTicketApp'>
+
+    <div id='githubTpl' ng-hide='true'>## Status
+**READY**
+
+## Migrations
+YES | NO
+
+## Description
+A few sentences describing the overall goals of the pull request's commits.
+
+## Related PRs
+List related PRs against other branches:
+
+branch | PR
+------ | ------
+other_pr_production | [link]()
+other_pr_master | [link]()
+
+## Deploy Notes
+Notes regarding deployment the contained body of work.  These should note any
+db migrations, etc.
+
+## Steps to Test or Reproduce
+1. Click a thing
+2. Confirm the thing
+3. Profit!
+
+## Impacted Areas in Application
+*
+    </div>
     <div ng-controller='JiraDevToolsController as jiraDevTools'>
       <div class="small-12 columns">
         <h1>

@@ -12,7 +12,7 @@ angular.module('JiraTicketApp', [])
     };
     var sendFillInDescription = function(callback){
       chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, { type: "fill-in-description" }, callback)
+        chrome.tabs.sendMessage(tabs[0].id, { type: "fill-in-description", content: $('#githubTpl').html() }, callback)
       });
     };
     return {
